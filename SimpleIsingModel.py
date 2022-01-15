@@ -17,6 +17,22 @@ def GenerateInitialState(N,M):
     return State
 
 def Evolve(State,G,beta,h,a,b,number):
+    """This function computes the posibility of
+    generating a new state in the ising latice
+    base on the Glauber dynamic
+
+    Args:
+        State (np array): current state of the latice
+        G (np array): interaction parameter
+        beta (float): 1/(KbT)
+        h (float): magnetic field parameter
+        a (int): x position of particle under consideration
+        b (int): y position of particle under consideration
+        number (int): numbered particle under consideration
+
+    Returns:
+        NewState (np array): new state of the latice
+    """
     N,M = np.shape(State)
     NewState = State
     Energy1 = 0
@@ -30,13 +46,10 @@ def Evolve(State,G,beta,h,a,b,number):
     Energy2 += h*(-NewState[a,b])
     if Energy2 - Energy1 < 0:
         NewState[a,b] *= -1
-        print(1)
     elif Energy2 - Energy1 >= 0 and np.random.rand() < np.exp(-(Energy2 - Energy1)*beta):
         NewState[a,b] *= -1
-        print(2)
     else:
-        print(Energy2 - Energy1)
-        print('No paso')
+        pass
     return NewState
 
 N = 30; M = 30
